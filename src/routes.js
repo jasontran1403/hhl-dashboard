@@ -22,12 +22,8 @@ import UploadFile from './pages/UploadFile';
 
 export default function Router() {
   const email = localStorage.getItem("email");
-
   // Kiểm tra xem email có tồn tại không
   const isEmailExists = !!email;
-
-
-  
   const routes = useRoutes([
     {
       path: '/',
@@ -43,7 +39,7 @@ export default function Router() {
         { path: 'upload', element: <UploadFile /> },
         { path: 'network', element: <NetworksPage /> },
         // { path: 'blog', element: <BlogPage /> },
-        email.includes("root") ? { path: 'exness', element: <ExnessPage /> } : { path: 'exness', element: <Page404 /> },
+        isEmailExists && email.includes("root") ? { path: 'exness', element: <ExnessPage /> } : { path: 'exness', element: <Page404 /> },
       ],
     },
     {
