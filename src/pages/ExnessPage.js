@@ -73,7 +73,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.exness.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.exnessId.toString().indexOf(query.toString()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -106,7 +106,6 @@ export default function ExnessPage() {
   const [currentAccessToken] = useState(localStorage.getItem("access_token") ? localStorage.getItem("access_token") : "");
   const [image, setImage] = useState("");
 
-
   useEffect(() => {
     const config = {
       method: 'get',
@@ -119,7 +118,6 @@ export default function ExnessPage() {
 
     axios.request(config)
       .then((response) => {
-        console.log(response.data);
         setListExness(response.data);
       })
       .catch((error) => {
@@ -270,6 +268,12 @@ export default function ExnessPage() {
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const selectedUser = selected.indexOf(row) !== -1;
                     const { exnessId, server, password, passview, status, message } = row;
+                    let messageConvert = "";
+                    if (message && message.includes("https://")) {
+                      messageConvert = "";
+                    } else {
+                      messageConvert = message;
+                    }
 
                     return (
                       <TableRow hover key={exnessId} tabIndex={-1} role="checkbox" selected={selectedUser}>
@@ -316,18 +320,17 @@ export default function ExnessPage() {
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
                             <Typography variant="subtitle2" noWrap>
-                              {message}
+                              {messageConvert}
                             </Typography>
                           </Stack>
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Label onClick={() => {openModalDetail(exnessId)}} style={{ cursor: "pointer" }} color={("info")}>{"Detail"}</Label>
+                            {message ? <Label onClick={() => {openModalDetail(exnessId)}} style={{ cursor: "pointer" }} color={("info")}>{"Detail"}</Label> :
+                            <Label style={{ cursor: "not-allowed" }} color={("info")}>{"Detail"}</Label>}
                           </Stack>
                         </TableCell>
-
-                        
                       </TableRow>
                     );
                   })}
