@@ -495,7 +495,8 @@ export default function DashboardAppPage() {
           text: 'Balances',
         },
         tickAmount: 5,
-        max: balance === 0 ? 50000 : balance > 500000 ? balance * 1.25 : balance * 3,
+        max: balance*1.1,
+        min: balance/2,
         labels: {
           "formatter": function (value) {
             if (typeof value === "undefined" || value === 5e-324) {
@@ -604,6 +605,49 @@ export default function DashboardAppPage() {
             })}
           </Popover>
         </Grid>
+
+        <Grid item xs={12} sm={12} md={12}>
+            <IconButton
+              onClick={handleOpen}
+              sx={{
+                padding: 0,
+                width: 44,
+                height: 44,
+                ...(open && {
+                  bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity),
+                }),
+              }}
+            >
+              <Input type="text" value={`Time ${currentMonth}`} style={{ minWidth: "150px", marginLeft: "120px", paddingLeft: "20px" }} />
+            </IconButton>
+            <Popover
+              open={Boolean(open)}
+              anchorEl={open}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+              PaperProps={{
+                sx: {
+                  p: 1,
+                  width: 140,
+                  '& .MuiMenuItem-root': {
+                    px: 1,
+                    typography: 'body2',
+                    borderRadius: 0.75,
+                  },
+                },
+              }}
+            >
+              {listMenu.map((item, index) => {
+                return <MenuItem key={index} onClick={() => { handleChangeMonth(item) }}>
+                  <Iconify sx={{ mr: 2 }} />
+                  {item}
+                </MenuItem>
+              })}
+
+
+            </Popover>
+          </Grid>
 
         <Grid container spacing={3}>
           {isAdmin ? (
