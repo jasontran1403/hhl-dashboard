@@ -51,6 +51,7 @@ export default function useChart(options) {
           zoomout: true,
           pan: true,
         },
+        
         // export: {
         //   csv: {
         //     filename: undefined,
@@ -68,6 +69,7 @@ export default function useChart(options) {
         //     filename: undefined,
         //   }
         // },
+        autoSelected: 'pan',
       },
     },
 
