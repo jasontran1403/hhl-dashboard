@@ -52,7 +52,7 @@ export default function ForgotPage() {
       </Helmet>
 
       <StyledRoot>
-        <a href= {"/login"}> <img className='logo-img' src="/assets/logo.png" alt="logo-img" /> </a>
+        <a href= {"/login"}> <img className='logo-img' src="/assets/mini.png" alt="logo-img" /> </a>
 
         
         <Container maxWidth="sm">

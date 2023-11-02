@@ -51,7 +51,7 @@ export default function LoginPage() {
       </Helmet>
 
       <StyledRoot >
-        <img className='logo-img' src="/assets/logo.png" alt="logo-img" />
+        <img className='logo-img' src="/assets/mini.png" alt="logo-img" />
 
         {mdUp && (
           <StyledSection  >
@@ -65,7 +65,7 @@ export default function LoginPage() {
         <Container className ="login-section" maxWidth="sm">
           <StyledContent >
             <Typography variant="h4" gutterBottom>
-              Sign in to InfinityEA
+              Sign in to Gators
             </Typography>
 
             <Typography variant="body2" sx={{ mb: 5 }}>

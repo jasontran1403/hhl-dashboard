@@ -52,7 +52,7 @@ export default function SignupPage() {
       </Helmet>
 
       <StyledRoot id = "abc">
-        <a href= {"/login"}> <img className='logo-img' src="/assets/logo.png" alt="logo-img" /> </a>
+        <a href= {"/login"}> <img className='logo-img' src="/assets/mini.png" alt="logo-img" /> </a>
 
         <Container maxWidth="sm">
           <StyledContent>

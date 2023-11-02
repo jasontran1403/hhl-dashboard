@@ -136,7 +136,7 @@ export default function Nav({ openNav, onCloseNav }) {
                 <h3 className='ref-title' >Refferal code:</h3>
                 <span className='ref-code'> {refCode} </span>
                 <span className='line'/>
-                <div className='ref-footer'> Copyright © by InfinityEA </div>
+                <div className='ref-footer'> Copyright © by Gators </div>
 
               </div>
       <Box sx={{ flexGrow: 1 }} />

@@ -304,7 +304,7 @@ export default function Profile() {
                 <div className="opener"><span /><span /><span /></div>
               </div>
               <h2 className="name">{firstName} {lastName} </h2>
-              <div className="title">IEA Users</div>
+              <div className="title">Gators Users</div>
               <div className="actions">
                   <div className="follow-info">
                       <h2><a href="#"><span>First Name</span><small > {firstName} </small></a></h2>
