@@ -118,6 +118,7 @@ export default function ExnessPage() {
 
     axios.request(config)
       .then((response) => {
+        console.log(response.data);
         setListExness(response.data);
       })
       .catch((error) => {

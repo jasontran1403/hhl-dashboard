@@ -23,8 +23,8 @@ const style = {
 
 const StyledProductImg = styled('img')({
     top: 0,
-    width: '100%',
-    height: '100%',
+    width: '60%',
+    height: '60%',
     objectFit: 'cover',
     margin: 'auto',
 });
