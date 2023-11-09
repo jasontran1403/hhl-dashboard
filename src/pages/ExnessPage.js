@@ -109,7 +109,7 @@ export default function ExnessPage() {
   const [image, setImage] = useState("");
 
   const [isAdmin, setIsAdmin] = useState(currentEmail.includes("root"));
-  
+
 
   useEffect(() => {
     let endpoint = "";
@@ -347,8 +347,8 @@ export default function ExnessPage() {
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            {message ? <Label onClick={() => {openModalDetail(exnessId)}} style={{ cursor: "pointer" }} color={("info")}>{"Detail"}</Label> :
-                            <Label style={{ cursor: "not-allowed" }} color={("info")}>{"Detail"}</Label>}
+                            {message ? <Label onClick={() => { openModalDetail(exnessId) }} style={{ cursor: "pointer" }} color={("info")}>{"Detail"}</Label> :
+                              <Label style={{ cursor: "not-allowed" }} color={("info")}>{"Detail"}</Label>}
                           </Stack>
                         </TableCell>
                       </TableRow>
@@ -414,7 +414,7 @@ export default function ExnessPage() {
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Typography variant="subtitle2" noWrap>
+                            <Typography variant="subtitle2" noWrap style={{ whiteSpace: 'pre-line' }}>
                               {error}
                             </Typography>
                           </Stack>
@@ -422,7 +422,7 @@ export default function ExnessPage() {
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Label onClick={() => {openModalEdit(exnessId)}} style={{ cursor: "pointer" }} color={("info")}>{"Edit"}</Label>
+                            <Label onClick={() => { openModalEdit(exnessId) }} style={{ cursor: "pointer" }} color={("info")}>{"Edit"}</Label>
                           </Stack>
                         </TableCell>
                       </TableRow>
@@ -434,8 +434,8 @@ export default function ExnessPage() {
                     </TableRow>
                   )}
                 </TableBody>}
-                <ModalDetail className="abc" isOpen={isModalDetailOpen} onClose={closeModalDetail} exness={currentExness}/>
-                <ModalEdit className="abc" isOpen={isModalEditOpen} onClose={closeModalEdit} exness={currentExness}/>
+                <ModalDetail className="abc" isOpen={isModalDetailOpen} onClose={closeModalDetail} exness={currentExness} />
+                <ModalEdit className="abc" isOpen={isModalEditOpen} onClose={closeModalEdit} exness={currentExness} />
                 {isNotFound && (
                   <TableBody>
                     <TableRow>
