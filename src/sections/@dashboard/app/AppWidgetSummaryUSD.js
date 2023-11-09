@@ -30,7 +30,7 @@ AppWidgetSummaryUSD.propTypes = {
   sx: PropTypes.object,
 };
 
-export default function AppWidgetSummaryUSD({ title, total, icon, color = 'primary', sx, ...other }) {
+export default function AppWidgetSummaryUSD({ title, rank, icon, color = 'primary', sx, ...other }) {
   return (
     <Card
       sx={{
@@ -56,7 +56,7 @@ export default function AppWidgetSummaryUSD({ title, total, icon, color = 'prima
         <Iconify icon={icon} width={24} height={24} />
       </StyledIcon>
 
-      <Typography variant="h3">{fCurrencyUSD(total)}</Typography>
+      <Typography variant="h3">{rank}</Typography>
 
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}

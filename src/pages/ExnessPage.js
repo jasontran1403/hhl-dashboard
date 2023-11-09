@@ -27,6 +27,7 @@ import {
 } from '@mui/material';
 // components
 
+import ModalEdit from '../components/modalEdit/ModalEdit';
 import ModalExness from '../components/modal/ModalExness';
 import ModalDetail from '../components/modalDetail/ModalDetail';
 import Label from '../components/label';
@@ -94,6 +95,7 @@ export default function ExnessPage() {
   const [orderBy, setOrderBy] = useState('name');
 
   const [filterName, setFilterName] = useState('');
+  const [isModalEditOpen, setIsModalEditOpen] = useState();
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -106,11 +108,20 @@ export default function ExnessPage() {
   const [currentAccessToken] = useState(localStorage.getItem("access_token") ? localStorage.getItem("access_token") : "");
   const [image, setImage] = useState("");
 
+  const [isAdmin, setIsAdmin] = useState(currentEmail.includes("root"));
+  
+
   useEffect(() => {
+    let endpoint = "";
+    if (isAdmin) {
+      endpoint = `${prod}/api/v1/admin/get-all-exness`;
+    } else {
+      endpoint = `${prod}/api/v1/secured/get-all-exness/${currentEmail}`;
+    }
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `${prod}/api/v1/admin/get-all-exness`,
+      url: endpoint,
       headers: {
         'Authorization': `Bearer ${currentAccessToken}`
       }
@@ -118,7 +129,6 @@ export default function ExnessPage() {
 
     axios.request(config)
       .then((response) => {
-        console.log(response.data);
         setListExness(response.data);
       })
       .catch((error) => {
@@ -160,6 +170,15 @@ export default function ExnessPage() {
 
   const closeModalDetail = () => {
     setIsModalDetailOpen(false);
+  };
+
+  const openModalEdit = (id) => {
+    setIsModalEditOpen(true);
+    setCurrentExness(id);
+  };
+
+  const closeModalEdit = () => {
+    setIsModalEditOpen(false);
   };
 
   useEffect(() => {
@@ -244,9 +263,9 @@ export default function ExnessPage() {
           <Typography className='exness-title' variant="h4" gutterBottom>
             Exness
           </Typography>
-          <Button onClick={openModal} variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+          {isAdmin ? <Button onClick={openModal} variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
             Add new Exness ID
-          </Button>
+          </Button> : ""}
           <ModalExness className="abc" isOpen={isModalOpen} onClose={closeModal} />
         </Stack>
 
@@ -265,7 +284,7 @@ export default function ExnessPage() {
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
-                <TableBody>
+                {isAdmin ? <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const selectedUser = selected.indexOf(row) !== -1;
                     const { exnessId, server, password, passview, status, message } = row;
@@ -278,9 +297,9 @@ export default function ExnessPage() {
 
                     return (
                       <TableRow hover key={exnessId} tabIndex={-1} role="checkbox" selected={selectedUser}>
-                        <TableCell padding="checkbox">
+                        {/* <TableCell padding="checkbox">
                           <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, exnessId)} />
-                        </TableCell>
+                        </TableCell> */}
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
@@ -340,8 +359,83 @@ export default function ExnessPage() {
                       <TableCell colSpan={6} />
                     </TableRow>
                   )}
-                </TableBody>
+                </TableBody> : <TableBody>
+                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                    const selectedUser = selected.indexOf(row) !== -1;
+                    const { exnessId, server, password, passview, status, message, error } = row;
+                    let messageConvert = "";
+                    if (message && message.includes("https://")) {
+                      messageConvert = "";
+                    } else {
+                      messageConvert = message;
+                    }
+
+                    return (
+                      <TableRow hover key={exnessId} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                        {/* <TableCell padding="checkbox">
+                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, exnessId)} />
+                        </TableCell> */}
+
+                        <TableCell component="th" scope="row" padding="none">
+                          <Stack direction="row" alignItems="center" spacing={2}>
+                            <Typography variant="subtitle2" noWrap>
+                              {exnessId}
+                            </Typography>
+                          </Stack>
+                        </TableCell>
+
+                        <TableCell component="th" scope="row" padding="none">
+                          <Stack direction="row" alignItems="center" spacing={2}>
+                            <Typography variant="subtitle2" noWrap>
+                              {server}
+                            </Typography>
+                          </Stack>
+                        </TableCell>
+
+                        <TableCell component="th" scope="row" padding="none">
+                          <Stack direction="row" alignItems="center" spacing={2}>
+                            <Typography variant="subtitle2" noWrap>
+                              {password}
+                            </Typography>
+                          </Stack>
+                        </TableCell>
+
+                        <TableCell component="th" scope="row" padding="none">
+                          <Stack direction="row" alignItems="center" spacing={2}>
+                            <Typography variant="subtitle2" noWrap>
+                              {passview}
+                            </Typography>
+                          </Stack>
+                        </TableCell>
+
+                        <TableCell align="left">
+                          <Label color={(status ? "success" : "error")}>{status ? "Active" : "Inactive"}</Label>
+                        </TableCell>
+
+                        <TableCell component="th" scope="row" padding="none">
+                          <Stack direction="row" alignItems="center" spacing={2}>
+                            <Typography variant="subtitle2" noWrap>
+                              {error}
+                            </Typography>
+                          </Stack>
+                        </TableCell>
+
+                        <TableCell component="th" scope="row" padding="none">
+                          <Stack direction="row" alignItems="center" spacing={2}>
+                            <Label onClick={() => {openModalEdit(exnessId)}} style={{ cursor: "pointer" }} color={("info")}>{"Edit"}</Label>
+                          </Stack>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>}
                 <ModalDetail className="abc" isOpen={isModalDetailOpen} onClose={closeModalDetail} exness={currentExness}/>
+                <ModalEdit className="abc" isOpen={isModalEditOpen} onClose={closeModalEdit} exness={currentExness}/>
                 {isNotFound && (
                   <TableBody>
                     <TableRow>

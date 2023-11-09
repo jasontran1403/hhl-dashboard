@@ -9,7 +9,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography, MenuItem, Stack, IconButton, Popover, Input, Card, CardHeader, Box } from '@mui/material';
 // components
 import ReactApexChart from 'react-apexcharts';
-import { fCurrency, fNumber, fShortenNumber } from '../utils/formatNumber';
+import { fCurrency, fCurrencyUSD, fNumber, fShortenNumber } from '../utils/formatNumber';
 import Iconify from '../components/iconify';
 // components
 import { useChart } from '../components/chart';
@@ -90,6 +90,7 @@ export default function DashboardAppPage() {
   const [commissionLabel, setCommissionLabel] = useState([]);
   const [profits, setProfits] = useState();
   const [commissions, setCommissions] = useState([]);
+  const [cash, setCash] = useState(0);
   const [listTransaction, setListTransaction] = useState([]);
   const [currentEmail] = useState(localStorage.getItem("email") ? localStorage.getItem("email") : "");
   const [currentAccessToken] = useState(localStorage.getItem("access_token") ? localStorage.getItem("access_token") : "");
@@ -99,8 +100,26 @@ export default function DashboardAppPage() {
   const [prevProfit, setPrevProfit] = useState(0.0);
   const [prevDeposit, setPrevDeposit] = useState(0.0);
   const [prevWithdraw, setPrevWithdraw] = useState(0.0);
-  const [isAdmin] = useState(currentEmail === "trantuongthuy@gmail.com");
+  const [isAdmin] = useState(false);
   const [totalCommissions, setTotalCommissions] = useState(0.0);
+  const [rank, setRank] = useState(0);
+
+  const [min, setMin] = useState(0.0);
+  const [max, setMax] = useState(0.0);
+
+  const timPhanTuLonNhat = (arr) => {
+    if (arr.length === 0) {
+      return null; // Trường hợp mảng rỗng
+    }
+    return arr.reduce((max, current) => (current.amount > max.amount ? current : max), arr[0]);
+  }
+
+  const timPhanTuNhoNhat = (arr) => {
+    if (arr.length === 0) {
+      return null; // Trường hợp mảng rỗng
+    }
+    return arr.reduce((min, current) => (current.amount < min.amount ? current : min), arr[0]);
+  }
 
   useEffect(() => {
     if (currentEmail === "trantuongthuy@gmail.com") {
@@ -189,10 +208,14 @@ export default function DashboardAppPage() {
     axios(config)
       .then((response) => {
         if (response.data.length > 0) {
-          const updatedList = ["All"].concat(response.data);
-          setListExness(updatedList);
+          // const updatedList = ["All"].concat(response.data);
+          // setListExness(updatedList);
 
-          setCurrentExness("All");
+          // setCurrentExness("All");
+
+          setListExness(response.data);
+
+          setCurrentExness(response.data[0]);
           fetchData(currentEmail, listMenu[0]);
         }
       })
@@ -342,6 +365,7 @@ export default function DashboardAppPage() {
 
     axios(config)
       .then((response) => {
+        setRank(response.data.rank);
         setBalance(response.data.profit);
         setCommission(response.data.commission);
 
@@ -390,6 +414,9 @@ export default function DashboardAppPage() {
           amount: timeMapBalances[time]
         }));
         setBalances(resultBalances.map((profit) => profit.amount));
+
+        setMax(timPhanTuLonNhat(resultBalances).amount);
+        setMin(timPhanTuNhoNhat(resultBalances).amount);
 
         // 
         const dataCommissions = response.data.commissions.map((commission) => commission);
@@ -495,8 +522,8 @@ export default function DashboardAppPage() {
           text: 'Balances',
         },
         tickAmount: 5,
-        max: balance * 1.1,
-        min: balance / 3,
+        max: max + max * 0.1,
+        min: min - min * 0.1,
         labels: {
           "formatter": function (value) {
             if (typeof value === "undefined" || value === 5e-324) {
@@ -606,7 +633,7 @@ export default function DashboardAppPage() {
           </Popover>
         </Grid>
 
-        
+
 
         <Grid container spacing={3}>
           {isAdmin ? (
@@ -616,7 +643,6 @@ export default function DashboardAppPage() {
                 <AppWidgetSummary className="deposit-section" sx={{ mb: 2 }} title="Total Deposit" total={prevDeposit} icon={'iconoir:coins-swap'} />
               </Grid>
               <Grid item xs={12} sm={3} md={3}>
-                <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Total Commissions" total={commission} color="info" icon={'mi:layers'} />
                 <AppWidgetSummary className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'iconoir:coins-swap'} />
               </Grid><Grid item xs={12} sm={3} md={3}>
                 <AppWidgetSummaryCommissions className="commission-section total-commission" sx={{ mb: 2 }} title="Total Commissions From Network" total={totalCommissions} color="info" icon={'mi:layers'} />
@@ -643,7 +669,7 @@ export default function DashboardAppPage() {
 
             </Grid>
               <Grid item xs={12} sm={4} md={4}>
-                <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Total Commissions" total={commission} color="info" icon={'mi:layers'} />
+                {currentExness === 'All' ? <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Internal Cash" rank={fCurrencyUSD(commission)} color="info" icon={'solar:ranking-outline'} /> : <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Rank" rank={rank >= 0 ? rank : "No Rank"} color="info" icon={'solar:ranking-outline'} />}
                 <AppWidgetSummary className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'iconoir:coins-swap'} />
               </Grid><Grid id item xs={12} sm={4} md={4}>
                 <AppCurrentVisits className="assets-section"
@@ -705,16 +731,18 @@ export default function DashboardAppPage() {
                 </MenuItem>
               })}
             </Popover>
-          </Grid> */}
-
-          <Grid item xs={12} md={12} lg={12} >
-            <Card style={{ marginBottom: "30px" }}>
+          </Grid> 
+              <Card style={{ marginBottom: "30px" }}>
               <CardHeader title={"Commission history"} subheader={""} />
 
               <Box sx={{ p: 3, pb: 1 }} dir="ltr">
                 <ReactApexChart type="line" series={chartData2} options={chartOptions2} height={364} />
               </Box>
             </Card>
+          */}
+
+          <Grid item xs={12} md={12} lg={12} >
+
 
             <Card>
               <CardHeader title={"Profit history"} subheader={""} />

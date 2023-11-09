@@ -17,6 +17,7 @@ import TransactionPage from './pages/TransactionPage';
 import Profile from './pages/Profile';
 import FAGuard from './pages/FAGuard';
 import UploadFile from './pages/UploadFile';
+import InternalTransfer from './pages/InternalTransfer';
 
 // ----------------------------------------------------------------------
 
@@ -36,10 +37,11 @@ export default function Router() {
         { path: 'profile', element: <Profile /> },
         { path: '2fa', element: <FAGuard /> },
         { path: 'transaction', element: <TransactionPage /> },
+        { path: 'transfer', element: <InternalTransfer /> },
         { path: 'upload', element: <UploadFile /> },
         { path: 'network', element: <NetworksPage /> },
         // { path: 'blog', element: <BlogPage /> },
-        isEmailExists && email.includes("root") ? { path: 'exness', element: <ExnessPage /> } : { path: 'exness', element: <Page404 /> },
+        isEmailExists ? { path: 'exness', element: <ExnessPage /> } : { path: 'exness', element: <Page404 /> },
       ],
     },
     {

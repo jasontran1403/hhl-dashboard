@@ -123,7 +123,6 @@ export default function Profile() {
 
     axios.request(config)
       .then((response) => {
-        console.log(response.data);
         setFirstName(response.data.firstName);
         setLastName(response.data.lastName);
         setBio(response.data.bio);
@@ -152,29 +151,6 @@ export default function Profile() {
       });
 
   }, [currentEmail]);
-
-  useEffect(() => {
-    const config = {
-      method: 'get',
-      url: `${prod}/api/v1/secured/avatar/${currentEmail}`,
-      responseType: 'blob',
-      headers: {
-        'Authorization': `Bearer ${currentAccessToken}`
-      }
-    };
-
-    axios(config)
-      .then((response) => {
-        // Chuyển dữ liệu blob thành URL cho hình ảnh
-        const imgUrl = URL.createObjectURL(response.data);
-        localStorage.setItem("image", imgUrl);
-        setImage(imgUrl);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-  }, []);
 
   const handleSubmit = () => {
     if (firstName === "" || lastName === "") {
@@ -253,7 +229,6 @@ export default function Profile() {
     const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      responseType: 'blob',
       url: `${prod}/api/v1/secured/upload-avatar`,
       headers: {
         'Authorization': `Bearer ${currentAccessToken}`,
@@ -263,9 +238,8 @@ export default function Profile() {
 
     axios(config)
       .then((response) => {
-        const imgUrl = URL.createObjectURL(response.data);
-        localStorage.setItem("image", imgUrl);
-        setImage(imgUrl);
+        localStorage.setItem("image", response.data);
+        setImage(response.data);
       })
       .catch((error) => {
         console.log(error);

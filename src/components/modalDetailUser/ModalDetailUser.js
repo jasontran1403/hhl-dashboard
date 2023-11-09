@@ -29,7 +29,7 @@ const StyledProductImg = styled('img')({
     margin: 'auto',
 });
 
-export default function ModalDetail({ exness, isOpen, onClose }) {
+export default function ModalDetailUser({ exness, isOpen, onClose }) {
     const navigate = useNavigate();
     const [currentAccessToken] = useState(localStorage.getItem("access_token") ? localStorage.getItem("access_token") : "");
     const [url, setUrl] = useState("");
@@ -73,55 +73,6 @@ export default function ModalDetail({ exness, isOpen, onClose }) {
         }
     }, [exness, isOpen]);
 
-    const handleSubmit = () => {
-        const config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: `${prod}/api/v1/admin/active-exness/${exness}`,
-            headers: {
-                'Authorization': `Bearer ${currentAccessToken}`
-            }
-        };
-
-        axios.request(config)
-            .then((response) => {
-                if (response.status === 200) {
-                    onClose();
-                    Swal.fire({
-                        title: "Success",
-                        icon: "success",
-                        timer: 3000,
-                        position: 'center',
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location.reload();
-                    });
-                }
-            })
-            .catch((error) => {
-                if (error.response.status === 403) {
-                    Swal.fire({
-                        title: "An error occured",
-                        icon: "error",
-                        timer: 3000,
-                        position: 'center',
-                        showConfirmButton: false
-                    });
-                } else {
-                    Swal.fire({
-                        title: "Session is ended, please login again !",
-                        icon: "error",
-                        timer: 3000,
-                        position: 'center',
-                        showConfirmButton: false
-                    }).then(() => {
-                        localStorage.clear();
-                        navigate('/login', { replace: true });
-                    });
-                }
-            });
-    }
-
     return (
         <div>
             <Modal
@@ -134,11 +85,6 @@ export default function ModalDetail({ exness, isOpen, onClose }) {
                 <Box sx={style} className="flex">
                     <Grid item xs={12} sm={12} md={12} style={{ display: "flex", flexDirection: "column" }}>
                         {url ? <StyledProductImg alt={"error"} src={url} /> : ""}
-
-                        <Grid item xs={12} sm={12} md={12} style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                            <Button onClick={handleSubmit}>Approve</Button>
-                            <Button onClick={onClose}>Cancel</Button>
-                        </Grid>
                     </Grid>
                 </Box>
             </Modal>

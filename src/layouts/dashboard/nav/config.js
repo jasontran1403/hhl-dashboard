@@ -37,6 +37,11 @@ const navConfig = [
     icon: icon('ic_transaction'),
   },
   {
+    title: 'transfer',
+    path: '/transfer',
+    icon: icon('ic_transaction'),
+  },
+  {
     title: 'upload',
     path: '/upload',
     icon: icon('ic_transaction'),

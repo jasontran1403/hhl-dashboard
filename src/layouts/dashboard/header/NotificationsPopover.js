@@ -52,7 +52,6 @@ export default function NotificationsPopover() {
 
     axios.request(config)
       .then((response) => {
-        console.log(response.data);
         setTotalUnRead(response.data.length);
         setAllNotifications(response.data);
         const firstThreeItems = response.data.slice(0, 3);
