@@ -217,6 +217,7 @@ export default function DashboardAppPage() {
 
           setCurrentExness(response.data[0]);
           fetchData(response.data[0], listMenu[0]);
+          fetchPrev(response.data[0]);
         }
       })
       .catch((error) => {
