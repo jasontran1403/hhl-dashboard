@@ -292,9 +292,9 @@ export default function DashboardAppPage() {
 
   }, []);
 
-  useEffect(() => {
-    fetchPrev(currentEmail);
-  }, []);
+  // useEffect(() => {
+  //   fetchPrev(currentEmail);
+  // }, []);
 
   const fetchPrev = (exness) => {
     const config = {
