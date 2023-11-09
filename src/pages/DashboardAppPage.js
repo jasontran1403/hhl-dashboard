@@ -216,7 +216,7 @@ export default function DashboardAppPage() {
           setListExness(response.data);
 
           setCurrentExness(response.data[0]);
-          fetchData(currentEmail, listMenu[0]);
+          fetchData(response.data[0], listMenu[0]);
         }
       })
       .catch((error) => {
@@ -663,15 +663,19 @@ export default function DashboardAppPage() {
                 />
               </Grid>
             </>) :
-            (<> <Grid item xs={12} sm={4} md={4}>
+            (<> <Grid item xs={12} sm={3} md={3}>
               <AppWidgetSummary className="balance-section" sx={{ mb: 2 }} total={balance} title="Balance" icon={'mi:bar-chart-alt'} />
               <AppWidgetSummary className="deposit-section" sx={{ mb: 2 }} title="Total Deposit" total={prevDeposit} icon={'iconoir:coins-swap'} />
 
             </Grid>
-              <Grid item xs={12} sm={4} md={4}>
-                {currentExness === 'All' ? <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Internal Cash" rank={fCurrencyUSD(commission)} color="info" icon={'solar:ranking-outline'} /> : <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Rank" rank={rank >= 0 ? rank : "No Rank"} color="info" icon={'solar:ranking-outline'} />}
-                <AppWidgetSummary className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'iconoir:coins-swap'} />
-              </Grid><Grid id item xs={12} sm={4} md={4}>
+            <Grid item xs={12} sm={3} md={3}>
+            <AppWidgetSummaryUSD className="cash-section" sx={{ mb: 2 }} title="Internal Cash" rank={fCurrencyUSD(commission)} color="info" icon={'solar:ranking-outline'} />
+            <AppWidgetSummary className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'iconoir:coins-swap'} />
+            </Grid>
+              <Grid item xs={12} sm={3} md={3}>
+                <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Rank" rank={rank >= 0 ? rank : "No Rank"} color="info" icon={'solar:ranking-outline'} />
+                
+              </Grid><Grid id item xs={12} sm={3} md={3}>
                 <AppCurrentVisits className="assets-section"
                   title={`Change from ${label[0]}`}
                   change={balance - balances[0]}

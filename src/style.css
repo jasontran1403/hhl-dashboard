@@ -133,7 +133,6 @@ html {
 .commission-section {
   background-color: #ff3273;
   color: var(--whitecolor);
-  
 }
 
 .total-commission {
@@ -154,6 +153,19 @@ html {
   height: 40px;
   width: 40px;
   color: #ff3273;
+}
+
+.cash-section > div {
+  background-color: var(--whitecolor);
+  height: 80px;
+  width: 80px;
+  background-image: none;
+
+}
+
+.cash-section > div > svg {
+  height: 40px;
+  width: 40px;
 }
 
 .withdraw-section {
