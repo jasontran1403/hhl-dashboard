@@ -26,6 +26,7 @@ import {
   AppWidgetSummary,
   AppWidgetSummaryUSD,
   AppWidgetSummaryCommissions,
+  AppWidgetSummaryRank,
   AppCurrentSubject,
   AppConversionRates,
 } from '../sections/@dashboard/app';
@@ -669,13 +670,13 @@ export default function DashboardAppPage() {
               <AppWidgetSummary className="deposit-section" sx={{ mb: 2 }} title="Total Deposit" total={prevDeposit} icon={'iconoir:coins-swap'} />
 
             </Grid>
-            <Grid item xs={12} sm={3} md={3}>
-            <AppWidgetSummaryUSD className="cash-section" sx={{ mb: 2 }} title="Internal Cash" rank={fCurrencyUSD(commission)} color="info" icon={'solar:ranking-outline'} />
-            <AppWidgetSummary className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'iconoir:coins-swap'} />
-            </Grid>
               <Grid item xs={12} sm={3} md={3}>
-                <AppWidgetSummaryUSD className="commission-section" sx={{ mb: 2 }} title="Rank" rank={rank >= 0 ? rank : "No Rank"} color="info" icon={'solar:ranking-outline'} />
-                
+                <AppWidgetSummaryUSD className="cash-section" sx={{ mb: 2 }} title="Internal Cash" rank={fCurrencyUSD(commission)} color="info" icon={'carbon:money'} />
+                <AppWidgetSummary className="withdraw-section" sx={{ mb: 2 }} title="Total Withdraw" total={prevWithdraw} icon={'iconoir:coins-swap'} />
+              </Grid>
+              <Grid item xs={12} sm={3} md={3}>
+                <AppWidgetSummaryRank className="rank-section" sx={{ mb: 2 }} title="Rank" rank={rank >= 0 ? rank : "No Rank"} color="info" icon={'solar:ranking-outline'} />
+
               </Grid><Grid id item xs={12} sm={3} md={3}>
                 <AppCurrentVisits className="assets-section"
                   title={`Change from ${label[0]}`}

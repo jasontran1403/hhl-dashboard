@@ -7,5 +7,6 @@ export { default as AppWebsiteVisits } from './AppWebsiteVisits';
 export { default as AppWidgetSummary } from './AppWidgetSummary';
 export { default as AppWidgetSummaryUSD } from './AppWidgetSummaryUSD';
 export { default as AppWidgetSummaryCommissions } from './AppWidgetSummaryUSD';
+export { default as AppWidgetSummaryRank } from './AppWidgetSummaryRank';
 export { default as AppCurrentSubject } from './AppCurrentSubject';
 export { default as AppConversionRates } from './AppConversionRates';

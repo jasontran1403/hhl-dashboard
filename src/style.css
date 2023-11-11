@@ -168,6 +168,23 @@ html {
   width: 40px;
 }
 
+.rank-section {
+  background-color: rgb(238, 200, 64)!important;
+
+}
+
+.rank-section > div {
+  background-color: #dcee40!important;
+  height: 80px;
+  width: 80px;
+  background-image: none;
+}
+
+.rank-section > div > svg {
+  height: 40px;
+  width: 40px;
+}
+
 .withdraw-section {
   background-color:#5dc95a;
   color: var(--whitecolor);
