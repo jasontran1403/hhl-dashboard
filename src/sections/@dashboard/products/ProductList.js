@@ -14,7 +14,7 @@ export default function ProductList({ products, onProductClick }) {
   return (
     <Grid container spacing={3}>
       {products.map((product) => (
-        <Grid key={product.email} item xs={12} sm={6} md={3} >
+        <Grid key={product.email} item xs={12} sm={6} md={4} >
           <ShopProductCard key={product.email} product={product} onProductClick={onProductClick} />
         </Grid>
       ))}

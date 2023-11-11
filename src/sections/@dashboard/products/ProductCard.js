@@ -25,7 +25,7 @@ ShopProductCard.propTypes = {
 };
 
 export default function ShopProductCard({ product, onProductClick }) {
-  const { email, referrer, price, image } = product;
+  const { email, referrer, price, image, sales } = product;
   return (
     <Card style={{ cursor: "pointer" }} onClick={() => onProductClick(product.email, product.referrer)} >
       <Box sx={{ pt: '100%', position: 'relative' }}>
@@ -38,7 +38,7 @@ export default function ShopProductCard({ product, onProductClick }) {
         </Typography>
 
         <Typography variant="subtitle1" noWrap>
-          Total Commission: {fCurrency(price)}
+          Tổng doanh số (nhóm): {fCurrency(sales)}
         </Typography>
       </Stack>
     </Card>
